@@ -1,0 +1,80 @@
+# Rabin-Karp algorithm in python
+
+
+# This is how we open and read a file
+# Note we cannot read a file which is not open, so we get a error
+with open('DATA.txt', 'r') as file:
+    # Storing contents of file into a variable
+    DATAStr = file.read()
+# Using len function we store length of string
+
+
+def search(pattern, text, primeNumber):
+    # Initializing of varible to implement algorithm
+    lentgh_of_pattern = len(pattern)
+    length_of_text = len(text)
+    hashValue_of_pattern = 0
+    hashValue_of_text = 0
+    d = 10
+    h = 1
+    i = 0
+    j = 0
+    flag = 0
+
+    for i in range(lentgh_of_pattern-1):
+        h = (h*d) % primeNumber
+
+    # Calculate hash value for pattern and text
+    for i in range(lentgh_of_pattern):
+        hashValue_of_pattern = (d*hashValue_of_pattern + ord(pattern[i])) % primeNumber
+        hashValue_of_text = (d*hashValue_of_text + ord(text[i])) % primeNumber
+
+    # Find the match
+    for i in range(length_of_text-lentgh_of_pattern+1):
+        if hashValue_of_pattern == hashValue_of_text:
+            for j in range(lentgh_of_pattern):
+                if text[i+j] != pattern[j]:
+                    break
+
+            j += 1
+
+            if j == lentgh_of_pattern:
+                print("Pattern is found at position: " + str(i+1))
+                flag = flag + 1
+
+        if i < length_of_text-lentgh_of_pattern:
+            hashValue_of_text = (d*(hashValue_of_text-ord(text[i])*h) + ord(text[i+lentgh_of_pattern])) % primeNumber
+
+            if hashValue_of_text < 0:
+                hashValue_of_text = hashValue_of_text+primeNumber
+    if flag > 0:
+        print("                      ye spam hai!!!")
+    else:
+        print("                     spam nahi hai")
+
+with open('DATA.txt','r') as file:
+   DATAStr1 = file.read()
+
+with open('Data2.txt','r') as file:
+   DATAStr2 = file.read()
+
+# opening file and sending data to the variable called pattern
+fileobj = open("Spam words.txt")
+lines = []
+for line in fileobj:
+    lines.append(line.strip())
+for word in lines:
+    pattern = word
+
+
+
+text = DATAStr1
+
+
+primeNumber = 839
+search(pattern, text, primeNumber)
+print("---------------------------------------------------------")
+text = DATAStr2
+
+primeNumber = 839
+search(pattern, text, primeNumber)
